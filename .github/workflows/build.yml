@@ -79,7 +79,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Run Slither
-        uses: crytic/slither-action@v0.3.2
+        uses: crytic/slither-action@v0.4.0
         id: slither
         with:
           node-version: "20.9.0"
@@ -122,6 +122,6 @@ jobs:
         run: npx hardhat coverage
   
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
