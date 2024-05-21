@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  workflow_call:
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.9.0
+
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Run tests
+        run: npx hardhat test
