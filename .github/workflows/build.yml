@@ -2,11 +2,6 @@ name: Build and Test
 
 on:
   workflow_call:
-    inputs:
-      codecov-token:
-        description: 'Codecov token'
-        required: false
-        type: string
 
 jobs:
   Setup:
@@ -116,20 +111,17 @@ jobs:
           node-version: "20.9.0"
 
       - name: Cache node modules
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
-          path: |
-            node_modules
-            ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
+            path: |
+              node_modules
+              ~/.npm
+            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+  
       - name: Run tests and generate coverage
         run: npx hardhat coverage
-
+  
       - name: Upload coverage reports to Codecov
-        if: ${{ inputs.codecov-token != '' }}
         uses: codecov/codecov-action@v4
         with:
-          token: ${{ inputs.codecov-token }}
+          token: ${{ secrets.CODECOV_TOKEN }} # required
