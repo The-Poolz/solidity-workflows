@@ -1,4 +1,5 @@
-name: Build and Test
+name: 'Build and Test Solidity Contracts | The-Poolz'
+description: 'Build and test Solidity contracts using Hardhat and Slither'
 
 on:
   workflow_call:
