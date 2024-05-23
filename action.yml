@@ -1,29 +1,8 @@
-name: 'Build and Test Solidity Contracts | The-Poolz'
-description: 'Build and test Solidity contracts using Hardhat and Slither'
-branding:
-  icon: 'microscope'
-  color: 'purple'
+name: "Build and Test Solidity Contracts | The-Poolz"
+description: "Build and test Solidity contracts using Hardhat and Slither"
 
 runs:
-  using: 'composite'
+using: "composite"
   steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-      shell: bash
-
-    - name: Run tests, coverage, and Slither in parallel
-      run: |
-        echo "Running tests, coverage, and Slither in parallel..."
-        node scripts/test.js &
-        node scripts/coverage.js &
-        node scripts/slither.js &
-        wait
-      shell: bash
+    - name: setup
+      uses: ./workflows/setup.yml
