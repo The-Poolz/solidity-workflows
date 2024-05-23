@@ -3,6 +3,7 @@ description: "Build and test Solidity contracts using Hardhat and Slither"
 
 runs:
   using: "composite"
+  shell: bash  # Specify the shell to be used for executing commands
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
