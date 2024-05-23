@@ -7,20 +7,59 @@ branding:
 runs:
   using: 'composite'
   steps:
-    - name: Setup
-      uses: ./.github/workflows/setup.yml
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-    - name: Test
-      uses: ./.github/workflows/test.yml
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
       with:
-        requires: [setup]
+        node-version: '14'
 
-    - name: Coverage Test
-      uses: ./.github/workflows/coverage-test.yml
-      with:
-        requires: [setup]
+    - name: Install dependencies
+      run: npm install
 
-    - name: Slither Test
-      uses: ./.github/workflows/slither-test.yml
+    - name: Run tests
+      run: npm run test
+
+    - name: Run coverage
+      run: npm run coverage
+
+    - name: Checkout shared workflows repository
+      uses: actions/checkout@v2
       with:
-        requires: [setup]
+        repository: The-Poolz/shared-workflows
+        ref: master
+        path: shared-workflows
+
+    - name: Setup Node.js for Slither
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.9.0'
+
+    - name: Restore node modules cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Run Slither
+      uses: crytic/slither-action@v0.4.0
+      id: slither
+      with:
+        node-version: '20.9.0'
+        fail-on: high
+        slither-args: --checklist --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
+
+    - name: Create/update checklist as PR comment
+      uses: actions/github-script@v5
+      if: github.event_name == 'pull_request'
+      env:
+        REPORT: ${{ steps.slither.outputs.stdout }}
+      with:
+        script: |
+          const script = require('./scripts/comment')
+          const header = '# Slither report'
+          const body = process.env.REPORT
+          await script({ github, context, header, body })
