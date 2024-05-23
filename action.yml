@@ -4,6 +4,9 @@ branding:
   icon: 'microscope'
   color: 'purple'
 
+on:
+  workflow_call:
+
 jobs:
   setup:
     uses: ./.github/workflows/setup.yml
