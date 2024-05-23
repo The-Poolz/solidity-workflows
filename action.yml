@@ -2,7 +2,7 @@ name: "Build and Test Solidity Contracts | The-Poolz"
 description: "Build and test Solidity contracts using Hardhat and Slither"
 
 runs:
-using: "composite"
+  using: "composite"
   steps:
     - name: setup
       uses: ./workflows/setup.yml
