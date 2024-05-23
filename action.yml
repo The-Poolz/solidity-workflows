@@ -17,12 +17,13 @@ runs:
 
     - name: Install dependencies
       run: npm install
+      shell: bash
 
     - name: Run tests, coverage, and Slither in parallel
-      shell: bash
       run: |
         echo "Running tests, coverage, and Slither in parallel..."
         node scripts/test.js &
         node scripts/coverage.js &
         node scripts/slither.js &
         wait
+      shell: bash
