@@ -3,12 +3,13 @@ description: "Build and test Solidity contracts using Hardhat and Slither"
 
 runs:
   using: "composite"
+  steps:
     - name: Checkout shared workflows repository
       uses: actions/checkout@v4
       with:
         repository: The-Poolz/solidity-workflows
         ref: master
         path: solidity-workflows
-  steps:
+
     - name: setup
-      uses: /solidity-workflows/workflows/setup.yml
+      uses: ./solidity-workflows/workflows/setup.yml
