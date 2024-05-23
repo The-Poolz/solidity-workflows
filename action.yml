@@ -4,6 +4,9 @@ description: 'Build and test Solidity contracts using Hardhat and Slither'
 runs:
   using: 'composite'
   steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Setup
       uses: ./.github/workflows/setup.yml
 
