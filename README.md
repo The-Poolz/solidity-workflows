@@ -1,6 +1,6 @@
-# Shared Workflows
+# Solidity Workflows
 
-**Shared Workflows** contains common GitHub Actions workflows for automating **Continuous Integration** tasks.
+**Solidity Workflows** contains common GitHub Actions workflows for automating **Continuous Integration** tasks.
 
 
 ## License
