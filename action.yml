@@ -3,18 +3,21 @@ description: 'Build and test Solidity contracts using Hardhat and Slither'
 
 runs:
   using: 'composite'
-  jobs:
-    setup:
+  steps:
+    - name: Setup
       uses: ./.github/workflows/setup.yml
 
-    test:
-      needs: setup
+    - name: Test
       uses: ./.github/workflows/test.yml
+      with:
+        requires: [Setup]
 
-    slither-test:
-      needs: setup
-      uses: ./.github/workflows/slither-test.yml
-
-    coverage-test:
-      needs: setup
+    - name: Coverage Test
       uses: ./.github/workflows/coverage-test.yml
+      with:
+        requires: [Setup]
+
+    - name: Slither Test
+      uses: ./.github/workflows/slither-test.yml
+      with:
+        requires: [Setup]
