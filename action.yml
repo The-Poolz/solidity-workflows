@@ -1,20 +1,21 @@
 name: 'Build and Test Solidity Contracts | The-Poolz'
 description: 'Build and test Solidity contracts using Hardhat and Slither'
+branding:
+  icon: 'microscope'
+  color: 'purple'
 
-runs:
-  using: 'composite'
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml
 
-    - name: Setup
-      uses: ./.github/workflows/setup.yml
+  test:
+    needs: setup
+    uses: ./.github/workflows/test.yml
 
-    - name: Test
-      uses: ./.github/workflows/test.yml
+  coverage:
+    needs: setup
+    uses: ./.github/workflows/coverage-test.yml
 
-    - name: Coverage Test
-      uses: ./.github/workflows/coverage-test.yml
-
-    - name: Slither Test
-      uses: ./.github/workflows/slither-test.yml
+  audit:
+    needs: setup
+    uses: ./.github/workflows/slither-test.yml
