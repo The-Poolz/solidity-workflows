@@ -1,21 +1,20 @@
 name: 'Build and Test Solidity Contracts | The-Poolz'
 description: 'Build and test Solidity contracts using Hardhat and Slither'
 
-on:
-  workflow_call:
+runs:
+using: 'composite'
+  steps:
+    - name: setup
+      uses: ./.github/workflows/setup.yml
 
-jobs:
-  setup:
-    uses: ./.github/workflows/setup.yml
+    - name: test
+      needs: setup
+      uses: ./.github/workflows/test.yml
 
-  test:
-    needs: setup
-    uses: ./.github/workflows/test.yml
+    - name: slither test
+      needs: setup
+      uses: ./.github/workflows/slither-test.yml
 
-  slither-test:
-    needs: setup
-    uses: ./.github/workflows/slither-test.yml
-
-  coverage-test:
-    needs: setup
-    uses: ./.github/workflows/coverage-test.yml
+    - name: coverage test
+      needs: setup
+      uses: ./.github/workflows/coverage-test.yml
