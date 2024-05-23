@@ -9,16 +9,16 @@ on:
 
 jobs:
   setup:
-    uses: ./.github/workflows/setup.yml
+    uses: ./workflows/setup.yml
 
   test:
     needs: setup
-    uses: ./.github/workflows/test.yml
+    uses: ./workflows/test.yml
 
   coverage:
     needs: setup
-    uses: ./.github/workflows/coverage-test.yml
+    uses: ./workflows/coverage-test.yml
 
   audit:
     needs: setup
-    uses: ./.github/workflows/slither-test.yml
+    uses: ./workflows/slither-test.yml
