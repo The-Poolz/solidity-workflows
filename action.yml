@@ -9,15 +9,9 @@ runs:
 
     - name: Test
       uses: ./.github/workflows/test.yml
-      with:
-        requires: [Setup]
 
     - name: Coverage Test
       uses: ./.github/workflows/coverage-test.yml
-      with:
-        requires: [Setup]
 
     - name: Slither Test
       uses: ./.github/workflows/slither-test.yml
-      with:
-        requires: [Setup]
