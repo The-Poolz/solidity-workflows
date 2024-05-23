@@ -4,12 +4,23 @@ description: "Build and test Solidity contracts using Hardhat and Slither"
 runs:
   using: "composite"
   steps:
-    - name: Checkout shared workflows repository
+    - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        repository: The-Poolz/solidity-workflows
-        ref: master
-        path: solidity-workflows
 
-    - name: setup
-      uses: ./solidity-workflows/workflows/setup.yml
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20.9.0"
+
+    - name: Cache node modules
+      uses: actions/cache@v4
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+          ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Install dependencies
+      if: steps.npm-cache.outputs.cache-hit != 'true'
+      run: npm i
