@@ -1,9 +1,6 @@
 name: "solidity-workflows"
 description: "Build and test Solidity contracts using Hardhat and Slither"
 
-on:
-    workflow_call:
-
 jobs:
     setup:
         uses: ./.github/workflows/setup.yml
