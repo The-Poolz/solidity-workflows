@@ -1,0 +1,20 @@
+name: 'Build and Test Solidity Contracts | The-Poolz'
+
+on:
+  workflow_call:
+
+jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml
+
+  test:
+    needs: setup
+    uses: ./.github/workflows/test.yml
+
+  slither-test:
+    needs: setup
+    uses: ./.github/workflows/slither-test.yml
+
+  coverage-test:
+    needs: setup
+    uses: ./.github/workflows/coverage-test.yml
