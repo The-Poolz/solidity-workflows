@@ -10,6 +10,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Checkout solidity workflows repository
+        uses: actions/checkout@v4
+        with:
+          repository: The-Poolz/solidity-workflows
+          ref: master
+          path: solidity-workflows
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
