@@ -29,8 +29,20 @@ jobs:
           BSCSCAN_API_KEY: ${{ secrets.BSCSCAN_API_KEY }}
           CMC_API_KEY: ${{ secrets.CMC_API_KEY }}
 
+      - name: Check if gasReport.md exists
+        id: check_gas_report
+        run: |
+          if [ -f gasReport.md ]; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
       - name: Comment on pull request
+        if: env.exists == 'true'
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: gasReport.md
           comment_tag: 'gas_report'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
