@@ -44,7 +44,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const content = `${process.env.read_md}`;
-            const { context, github } = github;
+            const { context, github } = require('@actions/github');
             const comment = `@${context.payload.pull_request.user.login} Here's the content of the gasReport.md file:\n\n${content}`;
             await github.issues.createComment({
               issue_number: context.payload.pull_request.number,
