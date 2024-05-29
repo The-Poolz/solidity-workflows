@@ -39,7 +39,7 @@ jobs:
           fi
 
       - name: Comment on pull request
-        if: env.exists == 'true'
+        if: github.event_name == 'pull_request' && env.exists == 'true'
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: gasReport.md
