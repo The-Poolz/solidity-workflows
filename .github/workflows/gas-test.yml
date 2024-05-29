@@ -33,16 +33,7 @@ jobs:
       - name: Run tests
         run: npx hardhat test
 
-      - name: Read gasReport.md file
-        id: read_md
-        run: |
-          echo "::set-output name=content::$(cat gasReport.md)"
-
       - name: Comment on pull request
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: |
-            @{{ github.actor }} Here's the content of the gasReport.md file:
-            ${{ steps.read_md.outputs.content }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          filePath: gasReport.md
