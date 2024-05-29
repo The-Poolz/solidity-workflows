@@ -38,7 +38,7 @@ jobs:
           REPORT: ${{ steps.read_gas_report.outputs.stdout }}
         with:
           script: |
-            const script = require('./solidity-workflows/scripts/comment-gas-report')
+            const script = require('./solidity-workflows/.github/scripts/comment')
             const header = '# Gas Report'
             const body = process.env.REPORT
             await script({ github, context, header, body })
