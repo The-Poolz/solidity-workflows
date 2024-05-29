@@ -4,33 +4,6 @@ This repository contains reusable **GitHub Actions workflows** for **Solidity pr
 
 ## Workflows
 
-### 0. Build
-
-This workflow sets up the environment and orchestrates other workflows for building and testing Solidity contracts.
-
-**Steps:**
-- Setup: Initializes the environment by checking out code, setting up Node.js, caching node modules, and installing dependencies.
-- Test: Runs gas tests to check for gas usage.
-- Slither Test: Runs static analysis using Slither.
-- Coverage Test: Generates and uploads code coverage reports.
-
-## Usage
-
-To use these workflows in your repository, you can call them from your GitHub Actions workflow files. For example:
-
-```yaml
-name: Example Workflow
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build-and-test:
-    uses: The-Poolz/solidity-workflows/.github/workflows/build.yml@master
-```
-
 ### 1. Build and Test Solidity Contracts | The-Poolz
 
 This workflow is designed to set up the environment, run tests, perform static analysis, and generate coverage reports for Solidity contracts. It consists of the following sub-workflows:
