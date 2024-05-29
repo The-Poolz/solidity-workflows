@@ -1,10 +1,20 @@
 # Solidity Workflows
 
-This repository contains reusable **GitHub Actions workflows** for **Solidity projects**. Each workflow automates specific tasks to ensure code quality, performance, and maintainability.
+This repository contains **Reusable GitHub Actions Workflows** for **Solidity projects**. Each workflow automates specific tasks to ensure code quality, performance, and maintainability.
+
+### Navigation
+
+-   [Build and Test Solidity Contracts](#1-build-and-test-solidity-contracts)
+-   [Build Setup](#2-setup)
+-   [Coverage Tests](#3-coverage-test)
+-   [Gas Tests](#4-gas-test)
+-   [Slither Tests](#5-slither-test)
+-   [Publish on Release](#6-publish-on-release)
+-   [License](#license)
 
 ## Workflows
 
-### 1. Build and Test Solidity Contracts | The-Poolz
+### 1. Build and Test Solidity Contracts
 
 This workflow is designed to set up the environment, run tests, perform static analysis, and generate coverage reports for Solidity contracts. It consists of the following sub-workflows:
 
@@ -44,14 +54,14 @@ Sets up the environment for other workflows by checking out code, setting up Nod
 ## Usage
 
 ```yaml
-name: 'Setup | The-Poolz'
+name: "Setup | The-Poolz"
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  setup:
-    uses: ./.github/workflows/setup.yml
+    setup:
+        uses: ./.github/workflows/setup.yml
 ```
 
 ### 3. Coverage Test
@@ -67,19 +77,20 @@ Runs on demand to generate and upload code coverage reports for Solidity project
 -   Upload coverage reports to Codecov.
 
 ## Usage
+
 ```yaml
-name: 'Coverage Test | The-Poolz'
+name: "Coverage Test | The-Poolz"
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  setup:
-    uses: ./.github/workflows/setup.yml
+    setup:
+        uses: ./.github/workflows/setup.yml
 
-  coverage-test:
-    needs: setup
-    uses: ./.github/workflows/coverage-test.yml
+    coverage-test:
+        needs: setup
+        uses: ./.github/workflows/coverage-test.yml
 ```
 
 ### 4. Gas Test
@@ -95,19 +106,20 @@ Runs on demand to test and report gas usage in Solidity contracts.
 -   If a gas report is generated, comment on the pull request with the report.
 
 ## Usage
+
 ```yaml
-name: 'Gas Tests | The-Poolz'
+name: "Gas Tests | The-Poolz"
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  setup:
-    uses: ./.github/workflows/setup.yml
+    setup:
+        uses: ./.github/workflows/setup.yml
 
-  test:
-    needs: setup
-    uses: ./.github/workflows/gas-test.yml
+    test:
+        needs: setup
+        uses: ./.github/workflows/gas-test.yml
 ```
 
 ### 5. Slither Test
@@ -125,19 +137,20 @@ Runs static analysis using Slither on Solidity contracts to identify potential i
 -   Create or update a checklist as a pull request comment with the Slither report.
 
 ## Usage
+
 ```yaml
-name: 'Slither Test | The-Poolz'
+name: "Slither Test | The-Poolz"
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  setup:
-    uses: ./.github/workflows/setup.yml
+    setup:
+        uses: ./.github/workflows/setup.yml
 
-  slither:
-    needs: setup
-    uses: ./.github/workflows/slither-test.yml
+    slither:
+        needs: setup
+        uses: ./.github/workflows/slither-test.yml
 ```
 
 ### 6. Publish on Release
@@ -152,17 +165,20 @@ Automatically publishes the package to npm when a new release is tagged.
 -   Configure git user for commits.
 -   Set the version based on the release tag and push changes.
 -   Publish the package to npm.
+
 ## Usage
+
 ```yaml
-name: 'Publish on Release | The-Poolz'
+name: "Publish on Release | The-Poolz"
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  release:
-    uses: ./.github/workflows/release.yml
+    release:
+        uses: ./.github/workflows/release.yml
 ```
+
 ## License
 
 This project is licensed under the [MIT License](https://github.com/The-Poolz/solidity-workflows/blob/master/LICENSE).
