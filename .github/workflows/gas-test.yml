@@ -33,12 +33,22 @@ jobs:
       - name: Run tests
         run: npx hardhat test
 
-      - name: Create/update gas report as PR comment
-        uses: actions/github-script@v7
-        if: github.event_name == 'pull_request'
+      - name: Read gasReport.md file
+        id: read_md
+        run: |
+          echo "::set-output name=content::$(cat gasReport.md)"
+
+      - name: Post comment
+        uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const script = require('./solidity-workflows/.github/scripts/comment')
-            const header = '# Gas Report'
-            await script({ github, context, header, body })
+            const content = `${process.env.read_md}`;
+            const { context, github } = github;
+            const comment = `@${context.payload.pull_request.user.login} Here's the content of the gasReport.md file:\n\n${content}`;
+            await github.issues.createComment({
+              issue_number: context.payload.pull_request.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
