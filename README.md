@@ -61,7 +61,7 @@ on:
 
 jobs:
     setup:
-        uses: ./.github/workflows/setup.yml
+        uses: The-Poolz/solidity-workflows/.github/workflows/setup.yml
 ```
 
 ### 3. Coverage Test
@@ -86,11 +86,11 @@ on:
 
 jobs:
     setup:
-        uses: ./.github/workflows/setup.yml
+        uses: The-Poolz/solidity-workflows/.github/workflows/setup.yml
 
     coverage-test:
         needs: setup
-        uses: ./.github/workflows/coverage-test.yml
+        uses: The-Poolz/solidity-workflows/.github/workflows/coverage-test.yml
 ```
 
 ### 4. Gas Test
@@ -115,11 +115,11 @@ on:
 
 jobs:
     setup:
-        uses: ./.github/workflows/setup.yml
+        uses: .The-Poolz/solidity-workflows/.github/workflows/setup.yml
 
     test:
         needs: setup
-        uses: ./.github/workflows/gas-test.yml
+        uses: The-Poolz/solidity-workflows/.github/workflows/gas-test.yml
 ```
 
 ### 5. Slither Test
@@ -146,11 +146,11 @@ on:
 
 jobs:
     setup:
-        uses: ./.github/workflows/setup.yml
+        uses: The-Poolz/solidity-workflows/.github/workflows/setup.yml
 
     slither:
         needs: setup
-        uses: ./.github/workflows/slither-test.yml
+        uses: The-Poolz/solidity-workflows/.github/workflows/slither-test.yml
 ```
 
 ### 6. Publish on Release
@@ -176,7 +176,7 @@ on:
 
 jobs:
     release:
-        uses: ./.github/workflows/release.yml
+        uses: The-Poolz/solidity-workflows/.github/workflows/release.yml
 ```
 
 ## License
