@@ -1,0 +1,48 @@
+name: Gas Test
+
+on:
+  workflow_call:
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.9.0
+
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Run tests
+        run: npx hardhat test
+        env:
+          BSCSCAN_API_KEY: ${{ secrets.BSCSCAN_API_KEY }}
+          CMC_API_KEY: ${{ secrets.CMC_API_KEY }}
+
+      - name: Check if gasReport.md exists
+        id: check_gas_report
+        run: |
+          if [ -f gasReport.md ]; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: Comment on pull request
+        if: env.exists == 'true'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: gasReport.md
+          comment_tag: 'gas_report'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

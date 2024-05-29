@@ -4,4 +4,4 @@
 
 
 ## License
-This project is licensed under the [MIT License](https://github.com/The-Poolz/shared-workflows/blob/master/LICENSE).
+This project is licensed under the [MIT License](https://github.com/The-Poolz/solidity-workflows/blob/master/LICENSE).

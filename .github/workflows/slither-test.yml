@@ -10,12 +10,12 @@ jobs:
       - name: Checkout code from caller repo
         uses: actions/checkout@v4
 
-      - name: Checkout shared workflows repository
+      - name: Checkout solidity workflows repository
         uses: actions/checkout@v4
         with:
-          repository: The-Poolz/shared-workflows
+          repository: The-Poolz/solidity-workflows
           ref: master
-          path: shared-workflows
+          path: solidity-workflows
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -45,7 +45,7 @@ jobs:
           REPORT: ${{ steps.slither.outputs.stdout }}
         with:
           script: |
-            const script = require('./shared-workflows/.github/scripts/comment')
+            const script = require('./solidity-workflows/.github/scripts/comment')
             const header = '# Slither report'
             const body = process.env.REPORT
             await script({ github, context, header, body })
