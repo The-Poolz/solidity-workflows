@@ -1,0 +1,44 @@
+name: Gas Test
+
+on:
+  workflow_call:
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.9.0
+
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Run tests
+        run: npx hardhat test
+
+      - name: Read gas report
+        id: read_gas_report
+        run: cat gasReport.md
+        continue-on-error: true
+
+      - name: Create/update gas report as PR comment
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        env:
+          REPORT: ${{ steps.read_gas_report.outputs.stdout }}
+        with:
+          script: |
+            const script = require('./solidity-workflows/scripts/comment-gas-report')
+            const header = '# Gas Report'
+            const body = process.env.REPORT
+            await script({ github, context, header, body })

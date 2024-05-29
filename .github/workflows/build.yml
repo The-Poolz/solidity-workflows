@@ -9,7 +9,7 @@ jobs:
 
   test:
     needs: setup
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/gas-test.yml
 
   slither-test:
     needs: setup
