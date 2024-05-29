@@ -39,6 +39,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const script = require('./solidity-workflows/.github/scripts/gas-report')
+            const script = require('./solidity-workflows/.github/scripts/comment')
             const header = '# Gas Report'
-            await script({ github, context, header })
+            await script({ github, context, header, body })
