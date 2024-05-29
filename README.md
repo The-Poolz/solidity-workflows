@@ -23,7 +23,7 @@ This workflow is designed to set up the environment, run tests, perform static a
 -   **Slither Test**: Performs static analysis using Slither and comments on the pull request with a checklist report.
 -   **Coverage Test**: Runs tests to generate coverage reports and uploads them to Codecov.
 
-## Usage
+### Usage
 
 To use these workflows in your repository, you can call them from your GitHub Actions workflow files. For example:
 
@@ -51,7 +51,7 @@ Sets up the environment for other workflows by checking out code, setting up Nod
 -   Cache node modules.
 -   Install dependencies if the cache is not hit.
 
-## Usage
+### Usage
 
 ```yaml
 name: "Setup | The-Poolz"
@@ -76,7 +76,7 @@ Runs on demand to generate and upload code coverage reports for Solidity project
 -   Run tests and generate coverage using `hardhat coverage`.
 -   Upload coverage reports to Codecov.
 
-## Usage
+### Usage
 
 ```yaml
 name: "Coverage Test | The-Poolz"
@@ -105,7 +105,7 @@ Runs on demand to test and report gas usage in Solidity contracts.
 -   Run tests with Hardhat and check for gas usage.
 -   If a gas report is generated, comment on the pull request with the report.
 
-## Usage
+### Usage
 
 ```yaml
 name: "Gas Tests | The-Poolz"
@@ -136,7 +136,7 @@ Runs static analysis using Slither on Solidity contracts to identify potential i
 -   Run Slither with specified arguments.
 -   Create or update a checklist as a pull request comment with the Slither report.
 
-## Usage
+### Usage
 
 ```yaml
 name: "Slither Test | The-Poolz"
@@ -166,7 +166,7 @@ Automatically publishes the package to npm when a new release is tagged.
 -   Set the version based on the release tag and push changes.
 -   Publish the package to npm.
 
-## Usage
+### Usage
 
 ```yaml
 name: "Publish on Release | The-Poolz"
