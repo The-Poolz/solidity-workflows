@@ -10,13 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Checkout solidity workflows repository
-        uses: actions/checkout@v4
-        with:
-          repository: The-Poolz/solidity-workflows
-          ref: master
-          path: solidity-workflows
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -33,19 +26,15 @@ jobs:
       - name: Run tests
         run: npx hardhat test
 
-      - name: Read gas report
-        id: read_gas_report
-        run: cat gasReport.md
-        continue-on-error: true
+      - name: Create gas report comment
+        id: create_comment
+        run: |
+          echo "Creating gas report comment"
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          COMMENT_BODY=$(cat gasReport.md)
 
-      - name: Create/update gas report as PR comment
-        uses: actions/github-script@v7
-        if: github.event_name == 'pull_request'
-        env:
-          REPORT: ${{ steps.read_gas_report.outputs.stdout }}
-        with:
-          script: |
-            const script = require('./solidity-workflows/.github/scripts/comment')
-            const header = '# Gas Report'
-            const body = process.env.REPORT
-            await script({ github, context, header, body })
+          curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -X POST \
+            -d "{\"body\": \"## Gas Report\n\n$COMMENT_BODY\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/comments"
