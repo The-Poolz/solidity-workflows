@@ -2,6 +2,10 @@ name: 'Build and Test Solidity Contracts | The-Poolz'
 
 on:
   workflow_call:
+    secrets:
+      codecov_token:
+        description: 'Codecov token'
+        required: true
 
 jobs:
   setup:
@@ -18,3 +22,5 @@ jobs:
   coverage-test:
     needs: setup
     uses: ./.github/workflows/coverage-test.yml
+    secrets:
+      codecov_token: ${{ secrets.CODECOV_TOKEN }}
