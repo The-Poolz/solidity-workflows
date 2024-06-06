@@ -6,6 +6,12 @@ on:
       codecov_token:
         description: 'Codecov token'
         required: true
+      bscscan_api_key:
+          description: 'BSCSCAN token'
+          required: false
+      cmc_api_key:
+          description: 'CMC token'
+          required: false
 
 jobs:
   setup:
@@ -14,6 +20,9 @@ jobs:
   test:
     needs: setup
     uses: ./.github/workflows/gas-test.yml
+    secrets:
+      bscscan_api_key: ${{ secrets.BSCSCAN_API_KEY }}
+      cmc_api_key: ${{ secrets.CMC_API_KEY }}
 
   slither-test:
     needs: setup
