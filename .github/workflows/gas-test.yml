@@ -2,6 +2,13 @@ name: Gas Test
 
 on:
   workflow_call:
+    secrets:
+      bscscan_api_key:
+        description: 'BSCSCAN token'
+        required: false
+      cmc_api_key:
+        description: 'CMC token'
+        required: false
 
 jobs:
   Test:
