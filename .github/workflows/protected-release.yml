@@ -1,0 +1,56 @@
+name: Publish on Release
+
+on:
+  workflow_call:
+    secrets:
+      node_auth_token:
+        description: 'NPM token'
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Get Release Tag
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Set git user
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Create new branch for release
+        run: |
+          git checkout -b release-${{ env.tag }}
+          npm version ${{ env.tag }}
+          git push origin release-${{ env.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE="Release ${{ env.tag }}"
+          PR_BODY="Automated PR to merge changes for release ${{ env.tag }}."
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/${{ github.repository }}/pulls \
+               -d '{"title":"'"$PR_TITLE"'","head":"release-'"${{ env.tag }}"'","base":"master","body":"'"$PR_BODY"'"}'
+
+      - name: Publish
+        if: github.ref == 'refs/heads/master'
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
