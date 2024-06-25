@@ -2,6 +2,10 @@ name: Publish on Release
 
 on:
     workflow_call:
+      secrets:
+        node_auth_token:
+          description: 'NPM token'
+          required: true
 
 jobs:
   publish:
